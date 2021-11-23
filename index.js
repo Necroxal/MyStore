@@ -6,6 +6,18 @@ app.get('/', (req,res)=>{
   res.send('Hola mi server express');
 });
 
+app.get('/nueva-ruta', (req,res)=>{
+  res.send('Hola ruta');
+});
+
+app.get('/products', (req,res)=>{
+  res.json({
+    name: "Producto 1",
+    price: 1000
+  });
+});
+
+
 app.listen(port, ()=>{
   console.log('Mi port ' + port)
 });
