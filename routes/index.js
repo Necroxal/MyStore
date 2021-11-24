@@ -6,9 +6,9 @@ const categoriesRouter =  require('./categories');
 function routerApi(app){
   const router = express.Router(); //crear ruta mestra para las diferentes verisones
   app.use('/api/v1', router); //ruta global para todos los endpoints
-  app.use('/products', productRouter);
-  app.use('/categories', categoriesRouter);
-  app.use('/users',  usersRouter);
+  router.use('/products', productRouter);
+  router.use('/categories', categoriesRouter);
+  router.use('/users',  usersRouter);
 }
 
 module.exports = routerApi;
