@@ -1,75 +1,40 @@
 const express = require('express');
-//Faker crea datos falsos
-const faker = require('faker');
+const ProducsService = require('./..//services/product.service')
 const router = express.Router();
-
+const service = new ProducsService();
 
 router.get('/', (req, res) => {
-  const products = [];
-  const {
-    size
-  } = req.query; //query para determianr cunatps ´roductso llegan
-  const limit = size || 10; //10 productos
-  for (let index = 0; index < limit; index++) { //for con los limites
-    products.push({
-      name: faker.commerce.productName(), //Se crea nombre aletorio
-      price: parseInt(faker.commerce.price(), 10), //Se crea precio parseado a INt base 10
-      image: faker.image.imageUrl(),
-    });
-  }
+  const products = service.find();
   res.json(products);
 });
-
 
 router.get('/filter', (req, res) => {
   res.send('Soy un filer')
 });
 
 router.get('/:id', (req, res) => {
-  const {
-    id
-  } = req.params;
-  if (id == '999') {
-    res.status(404).json({
-      message: 'Not found'
-    });
-  } else {
-    res.status(200).json({
-      id,
-      name: "Producto 2",
-      price: 800
-    });
-  }
+  const { id } = req.params;
+  const product = service.findOne(id);
+  res.json(product);
 });
 
 router.post('/', (req, res) => {
   const body = req.body;
-  res.status(201).json({
-    message: 'created',
-    data: body
-  });
+  const newProduct = service.create(body);
+  res.status(201).json(newProduct);
 });
 
 router.patch('/:id', (req, res) => {
-  const {
-    id
-  } = req.params;
+  const {id} = req.params;
   const body = req.body;
-  res.json({
-    message: 'update ',
-    data: body,
-    id
-  });
+  const prodcut = service.update(id,body);
+  res.json(prodcut);
 });
 
 router.delete('/:id', (req, res) => {
-  const {
-    id
-  } = req.params;
-  res.json({
-    message: 'Delete ',
-    id
-  });
+  const {id} = req.params;
+  const rta = service.delete(id);
+  res.json(rta);
 });
 
 module.exports = router;
