@@ -12,12 +12,17 @@ router.get('/filter', (req, res) => {
   res.send('Soy un filer')
 });
 
-router.get('/:id', async (req, res) => {
-  const {
-    id
-  } = req.params;
-  const product = await service.findOne(id); //Ejecuta una promesa de los servicios por eso se usa await
-  res.json(product);
+router.get('/:id', async (req, res, next) => {
+  try {
+    const {
+      id
+    } = req.params;
+    const product = await service.findOne(id); //Ejecuta una promesa de los servicios por eso se usa await
+    res.json(product);
+
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.post('/', async (req, res) => {
@@ -27,14 +32,14 @@ router.post('/', async (req, res) => {
 });
 
 router.patch('/:id', async (req, res) => {
-  try{
+  try {
     const {
       id
     } = req.params;
     const body = req.body;
     const prodcut = await service.update(id, body);
     res.json(prodcut);
-  } catch(error){
+  } catch (error) {
     res.status(404).json({
       message: error.message
     });
