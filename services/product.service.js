@@ -18,7 +18,7 @@ class ProductsService {
     }
   }
 
-  create(data) {
+  async create(data) {
     const newProduct = {
       id: faker.datatype.uuid(), //Se genera un id
       ...data //... concatena los valores que el usario va a usar
@@ -27,18 +27,23 @@ class ProductsService {
     return newProduct;
   }
   find() {
-    return this.products;
+    // eslint-disable-next-line no-unused-vars
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(this.products);
+      }, 5000);
+    })
   }
 
-  findOne(id) {
-    return this.products.find(item=> item.id === id);
+  async findOne(id) {
+    return this.products.find(item => item.id === id);
   }
-  update(id, changes) {
-    const index = this.products.findIndex(item=> item.id === id);
-    if(index === -1){ //si index no encuentra el elemento
+  async update(id, changes) {
+    const index = this.products.findIndex(item => item.id === id);
+    if (index === -1) { //si index no encuentra el elemento
       throw new Error('Product not found')
     }
-    const product =  this.products[index];
+    const product = this.products[index];
     this.products[index] = {
       ...product, //Persistan los datos de los atributos
       ...changes //aplicar neuvos cambios
@@ -46,13 +51,15 @@ class ProductsService {
     return this.products[index];
 
   }
-  delete(id) {
-    const index = this.products.findIndex(item=> item.id === id);
-    if(index === -1){ //si index no encuentra el elemento
+  async delete(id) {
+    const index = this.products.findIndex(item => item.id === id);
+    if (index === -1) { //si index no encuentra el elemento
       throw new Error('Product not found')
     }
-    this.products.splice(index,1); //Envia una pocision y cuantos elmentos eliminar a parti de lla
-    return {id};
+    this.products.splice(index, 1); //Envia una pocision y cuantos elmentos eliminar a parti de lla
+    return {
+      id
+    };
   }
 }
 
