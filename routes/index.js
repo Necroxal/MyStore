@@ -1,14 +1,17 @@
 const express = require('express');
-const productRouter = require('./products');
-const usersRouter = require('./users');
-const categoriesRouter =  require('./categories');
 
-function routerApi(app){
-  const router = express.Router(); //crear ruta mestra para las diferentes verisones
-  app.use('/api/v1', router); //ruta global para todos los endpoints
-  router.use('/products', productRouter);
+const productsRouter = require('./products.router');
+const categoriesRouter = require('./categories.router');
+const usersRouter = require('./users.router');
+const orderRouter = require('./orders.router');
+
+function routerApi(app) {
+  const router = express.Router();
+  app.use('/api/v1', router);
+  router.use('/products', productsRouter);
   router.use('/categories', categoriesRouter);
-  router.use('/users',  usersRouter);
+  router.use('/users', usersRouter);
+  router.use('/orders', orderRouter);
 }
 
 module.exports = routerApi;
