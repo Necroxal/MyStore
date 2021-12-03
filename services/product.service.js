@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 const faker = require('faker');
+const boom =  require('@hapi/boom');
 class ProductsService {
 
   constructor() {
@@ -36,13 +37,17 @@ class ProductsService {
   }
 
   async findOne(id) {
-    const name = this.getTotal();
-    return this.products.find(item => item.id === id);
+
+    const product = this.products.find(item => item.id === id);
+    if(!product){
+      throw boom.notFound('Product not found');
+    }
+    return product;
   }
   async update(id, changes) {
     const index = this.products.findIndex(item => item.id === id);
     if (index === -1) { //si index no encuentra el elemento
-      throw new Error('Product not found')
+      throw boom.notFound('Product not found'); //mandar error de boom libreria
     }
     const product = this.products[index];
     this.products[index] = {
@@ -55,7 +60,7 @@ class ProductsService {
   async delete(id) {
     const index = this.products.findIndex(item => item.id === id);
     if (index === -1) { //si index no encuentra el elemento
-      throw new Error('Product not found')
+      throw boom.notFound('Product not found');
     }
     this.products.splice(index, 1); //Envia una pocision y cuantos elmentos eliminar a parti de lla
     return {
