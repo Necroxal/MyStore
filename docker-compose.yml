@@ -1,0 +1,18 @@
+#Version de yml sera tratado este proceso
+version: '3.3'
+
+#serviios
+services:
+  postgres: #se puede añadir cualquier nombre
+    image: postgres:13 #se correra en el contenedor image la version 13 de postgres
+    environment: #variables de ambiente
+      - POSTGRES_DB=my_store
+      - POSTGRES_USER=german
+      - POSTGRES_PASSWORD=admin123
+    ports:
+      - 5432:5432
+#para persistir informacion y que no se borre info cuando se detenga el servicio
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data #ubicacion de los datos en postgres
+
+
