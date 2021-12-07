@@ -1,14 +1,15 @@
 const express = require('express');
-
 const ProductsService = require('./../services/product.service');
 const validatorHandler = require('./../middlewares/validator.handler');
+//3 schemas
 const { createProductSchema, updateProductSchema, getProductSchema } = require('./../schemas/product.schema');
 
 const router = express.Router();
 const service = new ProductsService();
-
+//Buscar productos
 router.get('/', async (req, res, next) => {
   try {
+    //se manda llamar servicio
     const products = await service.find();
     res.json(products);
   } catch (error) {

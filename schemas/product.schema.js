@@ -1,10 +1,12 @@
+//Validacion de datos
 const Joi = require('joi');
-
+//Tipos de datos
 const id = Joi.string().uuid();
 const name = Joi.string().min(3).max(15);
 const price = Joi.number().integer().min(10);
 const image = Joi.string().uri();
 
+//Datos que se pediran cuando se creen los datos
 const createProductSchema = Joi.object({
   name: name.required(),
   price: price.required(),
